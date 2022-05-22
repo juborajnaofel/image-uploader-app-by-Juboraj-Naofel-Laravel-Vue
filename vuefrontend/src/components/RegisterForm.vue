@@ -2,24 +2,21 @@
     <h1>Image Uploader System by I.E.U. Juboraj Naofel</h1>
     <br>
     <br>
-    <a v-on:click="isHidden = true"  href="javascript:void(0)">Login</a> |
-    <a v-on:click="isHidden = false" href="javascript:void(0)" >Register</a>
-    <div v-if="!isHidden" class="form_div">
+
+    <div class="form_div">
         <h4>Register</h4>
         <input v-model="name" type="text" placeholder="Enter Name" /><br>
         <input v-model="email" type="text" placeholder="Enter Email" /><br>
         <input v-model="password" type="password" placeholder="Enter Password" /><br>
         <button v-on:click="regFun"  >Register</button>
     </div>
-    <div v-if="isHidden" class="form_div">
-        <h4>Login</h4>
-        <input v-model="lemail" type="text" placeholder="Enter Email" /><br>
-        <input v-model="lpassword" type="password" placeholder="Enter Password" /><br>
-        <button v-on:click="logFun" >Login</button>
+    <br>
+    <div id="nav">
+        <router-link class="link" to="/">Already have an account? Login here!</router-link>
     </div>
 </template>
 <script>
-    import axios from 'axios';
+    //import axios from 'axios';
     export default {
         name: 'RegisterForm',
         data() {
@@ -42,22 +39,25 @@
                 // })
                 // console.log(res);
                 alert('Registration Successfull!');
-                localStorage.setItem('userInfor', JSON.stringify({'name': "1234"}));
+                localStorage.setItem('userInfo', JSON.stringify({'name': "1234"}));
+                this.$router.push({name: 'ProfilePage'})
                 
-            },
-            async logFun(){
-                console.warn('Log',this.lemail,this.lpassword);
-                let res = await axios.post('localhost:8000/login', {
-                    email: this.lemail,
-                    password:this.lpassword
-                })
-                console.log(res);
-            },
+            }
+        },
+        mounted(){
+            let user = localStorage.getItem('userInfo')
+            if(user){
+                this.$router.push({name: 'ProfilePage'})
+            }
         }
     };
 </script>
 
 <style>
+.link{
+    text-decoration: none;
+    color: seagreen;
+}
 .form_div input{
     display: block;
     margin-bottom: 2px;
