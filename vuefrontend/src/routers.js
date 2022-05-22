@@ -1,25 +1,21 @@
-import ProfilePage from './components/ProfilePage.vue';
-import RegisterForm from './components/RegisterForm.vue';
 import { createRouter, createWebHistory } from 'vue-router';
+import RegisterForm from './components/RegisterForm.vue';
+import ProfilePage from './components/ProfilePage';
 
 const routes = [
-    {
-        name: 'ProfilePage',
-        component: ProfilePage,
-        path: '/'
-    },
-
-    {
-        name: 'RegisterForm',
-        component: RegisterForm,
-        path: 'login-or-register'
-    },
-
-
+  {
+    path: '/',
+    name: 'RegisterForm',
+    component: RegisterForm
+  },
+  {
+    path: '/profile',
+    name: 'ProfilePage',
+    component: ProfilePage,
+  },
 ]
 const router = createRouter({
-    history: createWebHistory(),
-    routes
-});
-
-export default router;
+  history: createWebHistory(),
+  routes
+})
+export default router

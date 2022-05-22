@@ -1,14 +1,14 @@
 <template>
-<RegisterForm/>
+  <div id="nav">
+    <router-link to="/">Home</router-link> |
+    <router-link to="/profile">Profile</router-link>
+  </div>
+  <router-view/>
 </template>
 
 <script>
-import RegisterForm from './components/RegisterForm.vue'
 export default {
   name: 'App',
-  components: {
-    RegisterForm
-  }
 
 }
 </script>
