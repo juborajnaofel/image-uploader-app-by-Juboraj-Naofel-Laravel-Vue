@@ -8,7 +8,8 @@
         <input v-model="name" type="text" placeholder="Enter Name" /><br>
         <input v-model="email" type="text" placeholder="Enter Email" /><br>
         <input v-model="password" type="password" placeholder="Enter Password" /><br>
-        <button v-on:click="regFun"  >Register</button>
+        <input v-model="password_confirmation" type="password" placeholder="Enter Password Again" /><br>
+        <button v-on:click="regFun">Register</button>
     </div>
     <br>
     <div id="nav">
@@ -16,49 +17,64 @@
     </div>
 </template>
 <script>
-    //import axios from 'axios';
-    export default {
-        name: 'RegisterForm',
-        data() {
-            return {
-                name:'',
-                email:'',
-                password:'',
-                lemail:'',
-                lpassword:'',
-                isHidden: false
-            }
-        },
-        methods:{
-            async regFun(){
-                console.warn('Sign up', this.name,this.email,this.password);
-                // let res = await axios.post('localhost:8000/api/register', {
-                //     name: this.name,
-                //     email: this.email,
-                //     password:this.password
-                // })
-                // console.log(res);
-                alert('Registration Successfull!');
-                localStorage.setItem('userInfo', JSON.stringify({'name': "1234"}));
-                this.$router.push({name: 'ProfilePage'})
-                
-            }
-        },
-        mounted(){
-            let user = localStorage.getItem('userInfo')
-            if(user){
-                this.$router.push({name: 'ProfilePage'})
+
+export default {
+    name: 'RegisterForm',
+    data() {
+        return {
+            name: '',
+            email: '',
+            password: '',
+            password_confirmation: '',
+            lemail: '',
+            lpassword: '',
+            isHidden: false
+        }
+    },
+    methods: {
+        async regFun() {
+            console.warn('Sign up', this.name, this.email, this.password);
+
+            const data = {
+                name: this.name,
+                email: this.email,
+                password: this.password,
+                password_confirmation: this.password_confirmation
+            };
+            console.log("Request data . . . .", data);
+
+            const requestOptions = {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            };
+
+            var response = await fetch("http://127.0.0.1:8000/api/register", requestOptions);
+
+            
+            if(response.status == 201){
+                var data2 = await response.json();
+                localStorage.setItem('userInfo', JSON.stringify({ 'token': data2.token }));
+                this.$router.push({ name: 'ProfilePage' })
             }
         }
-    };
+    },
+    mounted() {
+        let user = localStorage.getItem('userInfo')
+        if (user) {
+            this.$router.push({ name: 'ProfilePage' })
+        }
+    }
+};
 </script>
 
 <style>
-.link{
+.link {
     text-decoration: none;
     color: seagreen;
 }
-.form_div input{
+
+.form_div input {
     display: block;
     margin-bottom: 2px;
     height: 20px;
@@ -69,7 +85,8 @@
     border: 1px solid seagreen;
     padding: 10px;
 }
-.form_div button{
+
+.form_div button {
     border-radius: 5px;
     margin-left: auto;
     margin-right: auto;

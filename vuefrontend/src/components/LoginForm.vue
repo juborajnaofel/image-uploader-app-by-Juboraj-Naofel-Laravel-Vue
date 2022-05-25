@@ -14,7 +14,6 @@
     </div>
 </template>
 <script>
-    import axios from 'axios';
     export default {
         name: 'LoginForm',
         data() {
@@ -29,12 +28,26 @@
         },
         methods:{
             async logFun(){
-                console.warn('Log',this.lemail,this.lpassword);
-                let res = await axios.post('localhost:8000/login', {
+                const data = {
                     email: this.lemail,
-                    password:this.lpassword
-                })
-                console.log(res);
+                    password: this.lpassword,
+                };
+                console.log("Request data . . . .", data);
+
+                const requestOptions = {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data)
+                };
+
+                var response = await fetch("http://127.0.0.1:8000/api/login", requestOptions);
+
+
+                if(response.status == 200){
+                    var data2 = await response.json();
+                    localStorage.setItem('userInfo', JSON.stringify({ 'token': data2.token }));
+                    this.$router.push({ name: 'ProfilePage' })
+                }
             },
         }
     };
