@@ -1,5 +1,8 @@
 <template>
-    <h1>Image Uploader System by I.E.U. Juboraj Naofel</h1>
+    <div id="title">
+        <h1>Image Uploader System</h1>
+        <h4>by I.E.U. Juboraj Naofel</h4>
+    </div>
     <br>
     <br>
 

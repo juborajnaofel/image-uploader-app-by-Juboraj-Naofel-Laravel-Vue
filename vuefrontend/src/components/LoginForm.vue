@@ -1,5 +1,8 @@
 <template>
-    <h1>Image Uploader System by I.E.U. Juboraj Naofel</h1>
+    <div id="title">
+        <h1>Image Uploader System</h1>
+        <h4>by I.E.U. Juboraj Naofel</h4>
+    </div>
     <br>
     <br>
     <div class="form_div">
@@ -81,5 +84,12 @@
     background-color: seagreen;
     color: white;
     border: 1px solid seagreen;
+}
+#title{
+    width: 100%;
+    border-bottom: 2px rgb(193, 199, 195) solid;
+    padding-top: 20px;
+    margin-bottom: 10px;
+    padding-bottom: 40px;
 }
 </style>
