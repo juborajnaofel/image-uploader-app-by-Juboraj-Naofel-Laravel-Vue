@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\ImageUploadNotify;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +16,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/check-broadcast', function () {
+    broadcast(new ImageUploadNotify(2));
 });

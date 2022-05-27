@@ -16,6 +16,9 @@
     </div>
 </template>
 <script>
+import Echo from 'laravel-echo';
+
+window.Pusher = require('pusher-js');
 
 export default {
     name: 'ProfilePage',
@@ -51,6 +54,8 @@ export default {
         },
     },
     async mounted() {
+
+
         let user = localStorage.getItem('userInfo')
         if (!user) {
             this.$router.push({ name: 'RegisterForm' })
@@ -85,6 +90,25 @@ export default {
             arrayName = JSON.parse(getJson)
             this.user_name = arrayName.user.name;
         }
+
+        window.Echo = new Echo({
+            broadcaster: 'pusher',
+            key: 'local',
+            wsHost: '127.0.0.1',
+            wsPort: 6001,
+            forceTLS: false,
+            disableStates:true,
+            auth: {
+                headers: {
+                'Referer': 'localhost',
+                'Authorization': bearer
+                }
+            }
+        });
+        window.Echo.channel('channel')
+        .listen('ImageUploadNotify', (e) => {
+            console.log(e);
+        })
 
         
     }

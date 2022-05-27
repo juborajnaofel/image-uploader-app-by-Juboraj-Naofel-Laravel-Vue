@@ -40,7 +40,7 @@ export default {
                 alert('The url is incorrect. No image found in this url. Please try another url.')
                 return
             }
-
+            alert('Uploading Started');
 
             const data = {
                 url: this.urlimg,
@@ -68,6 +68,7 @@ export default {
             if (response.status == 201) {
                 alert("Upload Successfull")
             }
+            this.$router.push({ name: 'ProfilePage' })
         },
         fetchChangeValue() {
             this.urlimg = this.url;

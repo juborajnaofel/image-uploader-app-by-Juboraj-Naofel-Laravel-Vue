@@ -10,6 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+use App\Events\ImageUploadNotify;
 class DownloadImage implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
@@ -43,5 +44,7 @@ class DownloadImage implements ShouldQueue
             'url' => $name,
             'user_id' => $this->details['id']
         ]);
+        $devent = $this->details['id'];
+        broadcast(new ImageUploadNotify($devent));
     }
 }
