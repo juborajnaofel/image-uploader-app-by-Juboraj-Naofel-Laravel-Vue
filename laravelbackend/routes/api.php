@@ -18,10 +18,14 @@ use App\Http\Controllers\UserController;
 Route::post('register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
 
+
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/me', function(Request $request) {
-        return auth()->user();
+        
+        return auth()->user()->id;
     });
+    Route::get('/load-user-images', [UserController::class, 'load_images']);
+    Route::post('/upload/save', [UserController::class, 'uplaod_image']);
 
     Route::post('/logout', [AuthController::class, 'logout']);
 });

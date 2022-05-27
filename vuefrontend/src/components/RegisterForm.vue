@@ -36,6 +36,21 @@ export default {
     },
     methods: {
         async regFun() {
+            var string1 = "";
+                if(this.email ==''){
+                    string1 = string1+"Email required. ";
+                }
+                if(this.password ==''){
+                    string1 = string1+"Password required. ";
+                }
+                if(this.name ==''){
+                    string1 = string1+"Name required. ";
+                }
+                if(string1!=""){
+                    alert(string1);
+                    return
+                }
+
             console.warn('Sign up', this.name, this.email, this.password);
 
             const data = {
@@ -57,8 +72,10 @@ export default {
             
             if(response.status == 201){
                 var data2 = await response.json();
-                localStorage.setItem('userInfo', JSON.stringify({ 'token': data2.token }));
+                localStorage.setItem('userInfo', JSON.stringify({ 'token': data2.token, 'user': data2.user_info}));
                 this.$router.push({ name: 'ProfilePage' })
+            }else{
+                alert('Wrong Input!');
             }
         }
     },

@@ -31,6 +31,19 @@
         },
         methods:{
             async logFun(){
+                var string1 = "";
+                if(this.lemail ==''){
+                    string1 = string1+"Email required. ";
+                }
+                if(this.lpassword ==''){
+                    string1 = string1+"Password required. ";
+                }
+                if(string1!=""){
+                    alert(string1);
+                    return
+                }
+
+
                 const data = {
                     email: this.lemail,
                     password: this.lpassword,
@@ -45,12 +58,16 @@
 
                 var response = await fetch("http://127.0.0.1:8000/api/login", requestOptions);
 
-
+                
                 if(response.status == 200){
                     var data2 = await response.json();
-                    localStorage.setItem('userInfo', JSON.stringify({ 'token': data2.token }));
+                    console.log(data2.user_info)
+                    localStorage.setItem('userInfo', JSON.stringify({ 'token': data2.token, 'user': data2.user_info}));
                     this.$router.push({ name: 'ProfilePage' })
+                }else{
+                    alert('Wrong Input!');
                 }
+                
             },
         }
     };
@@ -86,10 +103,13 @@
     border: 1px solid seagreen;
 }
 #title{
-    width: 100%;
+    width: 30%;
+    min-width:200px;
     border-bottom: 2px rgb(193, 199, 195) solid;
     padding-top: 20px;
     margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
     padding-bottom: 40px;
 }
 </style>

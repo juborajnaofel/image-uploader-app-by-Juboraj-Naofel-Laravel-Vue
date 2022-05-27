@@ -2,63 +2,68 @@
 
     <div id="title">
         <h1>Welcome!</h1>
-        <h4>user name</h4>
+        <h4>{{user_name}}</h4>
+        <br>
+        <br>
+        <br>
+    <router-link class="btn_menu" to="/add-image">Add image</router-link> &nbsp;
+    <a class="btn_menu" v-on:click="logoutFun">Logout</a>
     </div>
     <br>
-    <router-link class="btn" to="/add-image">Add image</router-link> &nbsp;
-    <a class="btn" v-on:click="logoutFun">Logout</a>
     <br>
-    <table class="table table-striped table-bordered">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Role</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="user in users" :key="user.id">
-                <td>{{ user.firstName }} {{ user.lastName }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.role }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <br>
+    <br>
+    <span id="list_images" v-for="item in items" v-bind:key="item.id">
+         <img :src="item.url" width="220" height="250" />
+    </span>
 </template>
 <script>
-import { ref } from 'vue';
 export default {
     name: 'ProfilePage',
-    setup() {
-        // make users variable reactive with the ref() function
-        const users = ref([
-            { firstName: 'Frank', lastName: 'Murphy', email: 'frank.murphy@test.com', role: 'User' },
-            { firstName: 'Vic', lastName: 'Reynolds', email: 'vic.reynolds@test.com', role: 'Admin' },
-            { firstName: 'Gina', lastName: 'Jabowski', email: 'gina.jabowski@test.com', role: 'Admin' },
-            { firstName: 'Jessi', lastName: 'Glaser', email: 'jessi.glaser@test.com', role: 'User' },
-            { firstName: 'Jay', lastName: 'Bilzerian', email: 'jay.bilzerian@test.com', role: 'User' }
-        ]);
-
-        return {
-            users
-        };
-    },
     data() {
         return {
-            items: [{ message: 'Foo' }, { message: 'Bar' }]
+            items: [],
+            user_name: ''
         }
     },
     methods: {
         logoutFun() {
             localStorage.removeItem('userInfo');
-            this.$router.push({ name: 'RegisterForm' })
+            this.$router.push({ name: 'LoginForm' })
         },
     },
-    mounted() {
+    async mounted() {
         let user = localStorage.getItem('userInfo')
         if (!user) {
             this.$router.push({ name: 'RegisterForm' })
         }
+        var arrayName = '';
+        var bearer = 'Bearer ' 
+        var getJson = localStorage.getItem('userInfo')
+        if(getJson){
+            arrayName = JSON.parse(getJson)
+            bearer = bearer + arrayName.token;            
+        }
+
+        const requestOptions = {
+            method: "GET",
+            headers: { "Content-Type": "application/json", 'Authorization': bearer },
+        };
+
+        var response = await fetch("http://127.0.0.1:8000/api/load-user-images", requestOptions);
+
+
+        if(response.status == 200){
+            var data2 = await response.json();
+            this.items = data2.images;
+        }
+        
+        if(getJson){
+            arrayName = JSON.parse(getJson)
+            this.user_name = arrayName.user.name;
+        }
+
+        
     }
 }
 </script>
@@ -75,5 +80,26 @@ export default {
     text-decoration: none;
     background-color: rgb(25, 83, 50);
     color: aliceblue;
+}
+#list_images img{
+    height: 200px;
+    width: 200px;
+    margin: 10px;
+    border-radius: 10px;
+}
+.btn_menu {
+    text-decoration: none;
+    background-color: rgb(255, 255, 255);
+    color: seagreen;
+    padding: 10px;
+    border-radius: 5px;
+}
+.btn_menu:hover {
+    text-decoration: none;
+    background-color: rgb(255, 255, 255);
+    color: rgb(43, 59, 50);
+    padding: 10px;
+    border-radius: 5px;
+    outline: 1px solid seagreen;
 }
 </style>
