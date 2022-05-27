@@ -12,7 +12,7 @@
         <input v-model="email" type="text" placeholder="Enter Email" /><br>
         <input v-model="password" type="password" placeholder="Enter Password" /><br>
         <input v-model="password_confirmation" type="password" placeholder="Enter Password Again" /><br>
-        <button v-on:click="regFun">Register</button>
+        <a href="#" v-on:click="regFun">Register</a>
     </div>
     <br>
     <div id="nav">
@@ -92,31 +92,5 @@ export default {
 .link {
     text-decoration: none;
     color: seagreen;
-}
-
-.form_div input {
-    display: block;
-    margin-bottom: 2px;
-    height: 20px;
-    width: 200px;
-    margin-left: auto;
-    margin-right: auto;
-    border-radius: 5px;
-    border: 1px solid seagreen;
-    padding: 10px;
-}
-
-.form_div button {
-    border-radius: 5px;
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-    margin-bottom: 2px;
-    height: 40px;
-    width: 220px;
-    padding: 10px;
-    background-color: seagreen;
-    color: white;
-    border: 1px solid seagreen;
 }
 </style>

@@ -37,7 +37,7 @@ export default {
     methods: {
         async upload() {
             if(this.showImg == false){
-                alert('No image found in url')
+                alert('The url is incorrect. No image found in this url. Please try another url.')
                 return
             }
 

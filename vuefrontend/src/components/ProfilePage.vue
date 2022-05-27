@@ -6,12 +6,8 @@
         <br>
         <br>
     <router-link class="btn_menu" to="/add-image">Add image</router-link> &nbsp;
-    <a class="btn_menu" v-on:click="logoutFun">Logout</a>
+    <a class="btn_menu" v-on:click="logoutFun" href="#">Logout</a>
     </div>
-    <br>
-    <br>
-    <br>
-    <br>
     <div id="imgWrap">
     {{noImage}}
     <span id="list_images" v-for="item in items" v-bind:key="item.id">

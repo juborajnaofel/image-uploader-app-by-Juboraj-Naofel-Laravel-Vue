@@ -9,7 +9,7 @@
         <h4>Login</h4>
         <input v-model="lemail" type="text" placeholder="Enter Email" /><br>
         <input v-model="lpassword" type="password" placeholder="Enter Password" /><br>
-        <button v-on:click="logFun" >Login</button>
+        <a v-on:click="logFun" href="#">Login</a>
     </div>
     <br>
     <div id="nav">
@@ -82,25 +82,29 @@
     display: block;
     margin-bottom: 2px;
     height: 20px;
-    width: 200px;
+    width: 300px;
     margin-left: auto;
     margin-right: auto;
     border-radius: 5px;
     border: 1px solid seagreen;
     padding: 10px;
 }
-.form_div button{
+.form_div a{
     border-radius: 5px;
     margin-left: auto;
     margin-right: auto;
     display: block;
     margin-bottom: 2px;
-    height: 40px;
-    width: 220px;
+    height: 20px;
+    width: 300px;
+    text-decoration: none;
     padding: 10px;
     background-color: seagreen;
     color: white;
     border: 1px solid seagreen;
+}
+.form_div a:hover{
+    background-color: rgb(62, 161, 105);
 }
 #title{
     width: 30%;
