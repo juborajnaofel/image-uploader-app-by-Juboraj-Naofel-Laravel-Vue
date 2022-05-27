@@ -1,8 +1,7 @@
 <template>
 
     <div id="title">
-        <h1>Welcome!</h1>
-        <h4>{{user_name}}</h4>
+        <h2>Welcome, {{user_name}}</h2>
         <br>
         <br>
         <br>
@@ -13,17 +12,22 @@
     <br>
     <br>
     <br>
+    <div id="imgWrap">
+    {{noImage}}
     <span id="list_images" v-for="item in items" v-bind:key="item.id">
          <img :src="'http://127.0.0.1:8000/uploads/'+item.url" width="220" height="250" />
     </span>
+    </div>
 </template>
 <script>
+
 export default {
     name: 'ProfilePage',
     data() {
         return {
             items: [],
-            user_name: ''
+            user_name: '',
+            noImage: ''
         }
     },
     methods: {
@@ -74,6 +78,11 @@ export default {
         if(response.status == 200){
             var data2 = await response.json();
             this.items = data2.images;
+            if(data2.images.length === 0){
+                this.noImage = "No images uploaded";
+            }else{
+                this.noImage ='';
+            }
         }
         
         if(getJson){
@@ -98,6 +107,11 @@ export default {
     text-decoration: none;
     background-color: rgb(25, 83, 50);
     color: aliceblue;
+}
+#imgWrap{
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
 }
 #list_images img{
     height: 200px;
