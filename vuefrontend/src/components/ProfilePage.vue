@@ -14,7 +14,7 @@
     <br>
     <br>
     <span id="list_images" v-for="item in items" v-bind:key="item.id">
-         <img :src="item.url" width="220" height="250" />
+         <img :src="'http://127.0.0.1:8000/uploads/'+item.url" width="220" height="250" />
     </span>
 </template>
 <script>
@@ -27,9 +27,27 @@ export default {
         }
     },
     methods: {
-        logoutFun() {
-            localStorage.removeItem('userInfo');
-            this.$router.push({ name: 'LoginForm' })
+        async logoutFun() {
+            var arrayName = '';
+            var bearer = 'Bearer ' 
+            var getJson = localStorage.getItem('userInfo')
+            if(getJson){
+                arrayName = JSON.parse(getJson)
+                bearer = bearer + arrayName.token;            
+            }
+
+            const requestOptions = {
+                method: "post",
+                headers: { "Content-Type": "application/json", 'Authorization': bearer },
+            };
+
+            var response = await fetch("http://127.0.0.1:8000/api/logout", requestOptions);
+
+
+            if(response.status == 200){
+                localStorage.removeItem('userInfo');
+                this.$router.push({ name: 'LoginForm' })
+            }
         },
     },
     async mounted() {

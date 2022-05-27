@@ -27,5 +27,5 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/load-user-images', [UserController::class, 'load_images']);
     Route::post('/upload/save', [UserController::class, 'uplaod_image']);
 
-    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/logout', [UserController::class, 'logout']);
 });

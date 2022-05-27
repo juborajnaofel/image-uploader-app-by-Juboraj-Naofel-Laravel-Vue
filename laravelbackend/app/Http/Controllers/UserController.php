@@ -8,6 +8,7 @@ use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use App\Jobs\DownloadImage;
 class UserController extends Controller
 {
 
@@ -19,11 +20,9 @@ class UserController extends Controller
         $attr = $request->validate([
             'url' => 'required|string'
         ]);
-        DB::table('uploads')->insert([
-            'url' => $request->url,
-            'user_id' => auth()->user()->id
-        ]);
-        return response([],201);
+        $details['url'] = $request->url;
+        $details['id'] = auth()->user()->id;
+        dispatch(new DownloadImage($details));
     }
 
     public function register(Request $request)
@@ -69,8 +68,8 @@ class UserController extends Controller
 
     public function logout()
     {
-        return [
-            'message' => 'Tokens Revoked'
-        ];
+        DB::table('personal_access_tokens')->where('tokenable_id', auth()->user()->id)->delete();
+        return response(['user_info'=> [] , 'token' => NULL], 200);
+        
     }
 }
